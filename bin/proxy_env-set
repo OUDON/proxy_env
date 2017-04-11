@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e
+unset CDPATH
+
+PROXIES_FILE="${PROXY_ENV_ROOT}/.proxies"
+CURRENT_PROXY_FILE="${PROXY_ENV_ROOT}/.current_proxy"
+
+function set_proxy() {
+  echo "export http_proxy=$2" > "$ENV_VARIABLES_FILE"
+  echo "export https_proxy=$2" >> "$ENV_VARIABLES_FILE" 
+  echo "export ftp_proxy=$2" >> "$ENV_VARIABLES_FILE"
+
+  if [ 'which git' ]; then
+    git config --global http.proxy $2
+    git config --global https.proxy $2
+    git config --global url."https://".insteadOf git://
+  fi
+
+  echo "$1" > "$CURRENT_PROXY_FILE"
+  exit 0
+}
+
+while read line; do
+  line_array=( `echo $line` )
+  if [ $1 = ${line_array[0]} ]; then
+    set_proxy $line
+  fi
+done < $PROXIES_FILE

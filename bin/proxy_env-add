@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+unset CDPATH
+
+echo "$1 $2" >> "$PROXIES_FILE"

@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+unset CDPATH
+
+cat << EOS
+proxy_env() {
+  case \$1 in
+  set | unset) command proxy_env "\$@" && source "\${PROXY_ENV_ROOT}/env_variables" ;;
+  *) command proxy_env "\$@" ;;
+  esac
+}
+EOS

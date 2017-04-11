@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+unset CDPATH
+
+if [ -z "${PROXY_ENV_ROOT}" ]; then
+  PROXY_ENV_ROOT="${HOME}/.proxy_env"
+else
+  PROXY_ENV_ROOT="${PROXY_ENV_ROOT%/}"
+fi
+export PROXY_ENV_ROOT
+PATH="${PROXY_ENV_ROOT}/bin:$PATH"
+
+export ENV_VARIABLES_FILE="${PROXY_ENV_ROOT}/env_variables"
+export CURRENT_PROXY_FILE="${PROXY_ENV_ROOT}/.current_proxy"
+export PROXIES_FILE="${PROXY_ENV_ROOT}/.proxies"
+
+COMMAND=$1
+case "$COMMAND" in
+list) 
+  exec proxy_env-list
+  ;;
+set)
+  exec proxy_env-set $2
+  ;;
+unset)
+  exec proxy_env-unset
+  ;;
+add)
+  exec proxy_env-add $2 $3
+  ;;
+init)
+  exec proxy_env-init
+  ;;
+esac

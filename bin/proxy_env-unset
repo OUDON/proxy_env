@@ -1,0 +1,24 @@
+#!/bin/bash
+unset CDPATH
+
+function remove_gitconfig_section() {
+  if ! git config --get-regexp "^$1\."; then
+    git config --remove-section "$1"
+  fi
+}
+
+echo "unset http_proxy" > "$ENV_VARIABLES_FILE"
+echo "unset https_proxy" >> "$ENV_VARIABLES_FILE"
+echo "unset ftp_proxy" >> "$ENV_VARIABLES_FILE"
+
+if [ 'which git' ]; then
+  git config --global --unset http.proxy
+  git config --global --unset https.proxy
+  git config --global --unset url."https://".insteadOf
+
+  # remove_gitconfig_section "http"
+  # remove_gitconfig_section "https"
+  # remove_gitconfig_section "ftp"
+fi
+
+echo "" > "${CURRENT_PROXY_FILE}"
