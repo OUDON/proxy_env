@@ -1,7 +1,3 @@
-#!/bin/bash
-set -e
-unset CDPATH
-
 cat << EOS
 proxy_env() {
   case \$1 in

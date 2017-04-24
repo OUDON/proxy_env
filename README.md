@@ -1,20 +1,19 @@
 # proxy\_env
 
 ## Installation
-Clone this repository and run install.sh.
+Clone this repository.
 
 ``` sh
 $ git clone https://github.com/OUDON/proxy\_env ~/.proxy\_env
-$ cd ~/.proxy\_env
-$ ./install.sh
 ```
 Add the following to your .bash\_profile.
 
 ``` sh
 if [ -z "$PROXY_ENV_ROOT" ]; then
-  export PROXY_ENV_ROOT=$HOME/util/proxy_env
+  export PROXY_ENV_ROOT=$HOME/.proxy_env
+  export PATH=$PROXY_ENV_ROOT/bin:$PATH
+  eval "$(proxy_env init)"
 fi
-eval "$(proxy_env init)"
 ```
 
 ## Usage
